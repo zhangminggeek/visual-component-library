@@ -22,7 +22,11 @@ export default {
         bottom: 0,
         left: 0
       },
-      dataPoints: 20 // 数据点个数
+      dataPoints: 20, // 数据点个数
+      xScale: null, // x轴
+      yScale: null, // y轴
+      line: null, // 曲线
+      dataset: [] // 数据集
     }
   },
   methods: {
@@ -45,7 +49,43 @@ export default {
     },
     // 生成坐标轴
     handleAxisCreate () {
-
+      this.xScale = d3.scaleLinear()
+        .domain([0, this.dataPoints - 1])
+        .range([0, this.width])
+      this.yScale = d3.scaleLinear()
+        .domain([0, 1])
+        .range([this.height, 0])
+      this.svg.append('g')
+        .attr('class', 'x axis')
+        .attr('transform', 'translate(0,' + this.height + ')')
+        .call(d3.axisBottom(this.xScale))
+      this.svg.append('g')
+        .attr('class', 'y axis')
+        .call(d3.axisLeft(this.yScale))
+    },
+    // 设置坐标轴和曲线样式
+    handleLineSet () {
+      this.line = d3.line()
+        .x(function (d, i) {
+          return this.xScale(i)
+        }) // 设置x轴数据
+        .y(function (d) {
+          return this.yScale(d.y)
+        }) // 设置y轴数据
+        .curve(d3.curveMonotoneX) // 应用平滑曲线
+    },
+    // 数据集
+    handleDatasetSet () {
+      this.dataset = d3.range(this.dataPoints).map(function (d) {
+        return { 'y': d3.randomUniform(1)() }
+      })
+    },
+    // 画线
+    handleLineDraw () {
+      this.svg.append('path')
+        .datum(this.dataset) // 绑定数据
+        .attr('class', 'line') //
+        .attr('d', this.line) // 画线
     }
   },
   mounted () {
