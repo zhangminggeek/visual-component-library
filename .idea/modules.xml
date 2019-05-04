@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/uniubi-base.iml" filepath="$PROJECT_DIR$/.idea/uniubi-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/visual-component-library.iml" filepath="$PROJECT_DIR$/.idea/visual-component-library.iml" />
     </modules>
   </component>
 </project>
